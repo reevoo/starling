@@ -13,6 +13,16 @@ class StarlingServer::PersistentQueue
   SOFT_LOG_MAX_SIZE = 16 * 1024 # 16 KB
 end
 
+class StarlingServer::DiskBackedQueueWithPersistentQueueBuffer
+  remove_const :MAX_PRIMARY_SIZE
+  MAX_PRIMARY_SIZE = 10
+end
+
+class StarlingServer::DiskBackedQueue
+  remove_const :MAX_LOGFILE_SIZE
+  MAX_LOGFILE_SIZE = 10
+end
+
 def safely_fork(&block)
   # anti-race juice:
   blocking = true
@@ -120,6 +130,27 @@ describe "StarlingServer" do
     File.size(log_rotation_path).should eql(1)
     # rotated log should be erased after a successful roll.
     Dir.glob("#{log_rotation_path}*").size.should eql(1)
+  end
+
+  it "should push messages to the backing queue" do
+    backing_queue_files_glob = File.join(@tmp_path, 'disk_backed_queue', 'test_backing_queue', '*')
+
+    @client.get('test_backing_queue').should be_nil
+
+    31.times do |i|
+      @client.set('test_backing_queue', i)
+    end
+
+    stats = @client.stats['127.0.0.1:22133']
+    stats["queue_test_backing_queue_primaryitems"].should == 10
+    stats["queue_test_backing_queue_backingitems"].should == 21
+
+
+    31.times do |i|
+      @client.get('test_backing_queue').should == i
+    end
+
+    @client.get('test_backing_queue').should be_nil
   end
 
   it "should output statistics per server" do
