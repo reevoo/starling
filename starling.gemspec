@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{starling}
-  s.version = "0.10.1"
+  s.version = "0.10.1.reevoo"
 
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+  s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["Blaine Cook", "Chris Wanstrath", "Britt Selvitelle", "Glenn Rempe", "Abdul-Rahman Advany", "Seth Fitzsimmons", "Harm Aarts", "Chris Gaffney"]
-  s.date = %q{2010-01-20}
+  s.date = %q{2010-09-07}
   s.description = %q{Starling is a light-weight, persistent queue server that speaks the memcached protocol. It was originally developed for Twitter's backend.}
   s.email = ["blaine@twitter.com", "chris@ozmm.org", "abdulrahman@advany.com", "starlingmq@groups.google.com", "harmaarts@gmail.com", "gaffneyc@gmail.com"]
   s.executables = ["starling", "starling_top"]
@@ -30,6 +30,8 @@ Gem::Specification.new do |s|
      "etc/starling.redhat",
      "etc/starling.ubuntu",
      "lib/starling.rb",
+     "lib/starling/disk_backed_queue.rb",
+     "lib/starling/disk_backed_queue_with_persistent_queue_buffer.rb",
      "lib/starling/handler.rb",
      "lib/starling/persistent_queue.rb",
      "lib/starling/queue_collection.rb",
@@ -41,7 +43,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/starling/starling/}
   s.rdoc_options = ["--quiet", "--title", "starling documentation", "--opname", "index.html", "--line-numbers", "--main", "README.rdoc", "--inline-source"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{Starling is a lightweight, transactional, distributed queue server}
   s.test_files = [
     "spec/starling_server_spec.rb"

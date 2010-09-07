@@ -10,7 +10,7 @@ require File.join(here, 'handler')
 
 module StarlingServer
 
-  VERSION = "0.10.0"
+  VERSION = "0.10.1.reevoo"
   
   class Base
     attr_reader :logger
