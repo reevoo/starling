@@ -19,6 +19,10 @@ module StarlingServer
       (available_log_files.size - 1) * MAX_LOGFILE_SIZE + @active_log_file_size
     end
 
+    def logsize
+      available_log_files.inject(0){|sum, f| sum + File.size(f) }
+    end
+
     def push(data)
       Thread.exclusive do
         rotate! if @active_log_file_size >= MAX_LOGFILE_SIZE

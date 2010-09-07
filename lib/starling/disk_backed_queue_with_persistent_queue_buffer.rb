@@ -20,8 +20,20 @@ module StarlingServer
       @primary.logsize
     end
 
+    def backing_logsize
+      @backing.logsize
+    end
+
     def length
       @primary.length + @backing.length
+    end
+
+    def primary_length
+      @primary.length
+    end
+
+    def backing_length
+      @backing.length
     end
 
     def initialize(persistence_path, queue_name)
