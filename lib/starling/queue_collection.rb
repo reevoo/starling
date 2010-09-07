@@ -1,5 +1,5 @@
 require 'thread'
-require 'starling/persistent_queue'
+require 'starling/disk_backed_queue_with_persistent_queue_buffer'
 
 module StarlingServer
   class InaccessibleQueuePath < Exception #:nodoc:
@@ -94,7 +94,7 @@ module StarlingServer
           # been loaded. There's a race condition otherwise, and we could
           # end up loading the queue multiple times.
           if @queues[key].nil?
-            @queues[key] = PersistentQueue.new(@path, key)
+            @queues[key] = DiskBackedQueueWithPersistentQueueBuffer.new(@path, key)
             @stats[:current_bytes] += @queues[key].initial_bytes
           end
         rescue Object => exc
