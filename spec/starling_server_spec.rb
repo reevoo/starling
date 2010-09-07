@@ -213,6 +213,6 @@ describe "StarlingServer" do
     Process.kill("INT", @server_pid)
     Process.wait(@server_pid)
     @client.reset
-    FileUtils.rm(Dir.glob(File.join(@tmp_path, '*')))
+    FileUtils.rm_r(@tmp_path)
   end
 end
