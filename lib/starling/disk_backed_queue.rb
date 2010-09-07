@@ -33,8 +33,11 @@ module StarlingServer
 
     def consume_log_into(queue)
       Thread.exclusive do
-        rotate! if @active_log_file_name == first_log_file
         return unless file = first_log_file
+        return if @active_log_file_name == file and @active_log_file_size.zero?
+
+        rotate! if @active_log_file_name == file
+
         load_log(file){|i| queue.push(i) }
         File.unlink(file)
       end
