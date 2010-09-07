@@ -101,7 +101,7 @@ class Starling < MemCache
 
     statistics.map { |k,v|
       v.keys
-    }.flatten.uniq.grep(/^queue_(.*)_items/).map { |v|
+    }.flatten.uniq.grep(/^queue_(.*)_items$/).map { |v|
       v.gsub(/^queue_/, '').gsub(/_items$/, '')
     }.reject { |v|
       v =~ /_total$/ || v =~ /_expired$/
