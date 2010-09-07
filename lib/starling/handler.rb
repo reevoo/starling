@@ -53,9 +53,9 @@ STAT queue_%s_total_items %d\r
 STAT queue_%s_logsize %d\r
 STAT queue_%s_expired_items %d\r
 STAT queue_%s_age %d\r
-STAT queue_%s_backing_logsize %d\r
-STAT queue_%s_primary_items %d\r
-STAT queue_%s_backing_items %d\r\n".freeze
+STAT queue_%s_backinglogsize %d\r
+STAT queue_%s_primaryitems %d\r
+STAT queue_%s_backingitems %d\r\n".freeze
 
     SHUTDOWN_COMMAND = /\Ashutdown\r\n/m
 
