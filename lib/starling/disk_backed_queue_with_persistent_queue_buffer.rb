@@ -42,7 +42,8 @@ module StarlingServer
     end
 
     def push(data)
-      if @primary.length >= MAX_PRIMARY_SIZE
+      if @primary.length >= MAX_PRIMARY_SIZE or @force_backing
+        @force_backing = true
         @backing.push(data)
       else
         @primary.push(data)
@@ -50,7 +51,10 @@ module StarlingServer
     end
 
     def pop
-      @backing.consume_log_into(@primary) if @primary.empty?
+      if @primary.empty?
+        @backing.consume_log_into(@primary)
+        @force_backing = false if @primary.empty?
+      end
       @primary.pop
     end
   
