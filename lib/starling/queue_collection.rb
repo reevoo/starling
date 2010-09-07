@@ -13,7 +13,7 @@ module StarlingServer
     ##
     # Create a new QueueCollection at +path+
 
-    def initialize(path)
+    def initialize(path, allow_out_of_order_reads = false)
       unless File.directory?(path) && File.writable?(path)
         raise InaccessibleQueuePath.new("'#{path}' must exist and be read-writable by #{Etc.getpwuid(Process.uid).name}.")
       end
@@ -21,6 +21,7 @@ module StarlingServer
       @shutdown_mutex = Mutex.new
 
       @path = path
+      @allow_out_of_order_reads = allow_out_of_order_reads
       @logger = StarlingServer::Base.logger
 
       @queues = {}
@@ -94,7 +95,7 @@ module StarlingServer
           # been loaded. There's a race condition otherwise, and we could
           # end up loading the queue multiple times.
           if @queues[key].nil?
-            @queues[key] = DiskBackedQueueWithPersistentQueueBuffer.new(@path, key)
+            @queues[key] = DiskBackedQueueWithPersistentQueueBuffer.new(@path, key, @allow_out_of_order_reads)
             @stats[:current_bytes] += @queues[key].initial_bytes
           end
         rescue Object => exc

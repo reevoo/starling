@@ -36,13 +36,14 @@ module StarlingServer
       @backing.length
     end
 
-    def initialize(persistence_path, queue_name)
+    def initialize(persistence_path, queue_name, allow_out_of_order_reads)
+      @allow_out_of_order_reads = allow_out_of_order_reads
       @primary = PersistentQueue.new(persistence_path, queue_name)
       @backing = DiskBackedQueue.new(persistence_path, queue_name)
     end
 
     def push(data)
-      if @primary.length >= MAX_PRIMARY_SIZE or @force_backing
+      if @primary.length >= MAX_PRIMARY_SIZE or (@force_backing and not @allow_out_of_order_reads)
         @force_backing = true
         @backing.push(data)
       else

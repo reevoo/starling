@@ -123,6 +123,10 @@ module StarlingServer
           options[:user] = user.to_i == 0 ? Etc.getpwnam(user).uid : user.to_i
         end
 
+        opts.on("--fast-and-unordered", "Force primary queues to be consumed before backing queues are considered, even if backing is older.") do |fast_and_unordered|
+          options[:fast_and_unordered] = fast_and_unordered
+        end
+
         opts.on("-gGROUP", "--group GROUP", "Group to run as") do |group|
           options[:group] = group.to_i == 0 ? Etc.getgrnam(group).gid : group.to_i
         end
