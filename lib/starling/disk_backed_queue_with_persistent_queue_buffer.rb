@@ -5,7 +5,7 @@ module StarlingServer
   class DiskBackedQueueWithPersistentQueueBuffer
     MAX_PRIMARY_SIZE = 10_000
     def initial_bytes
-      @primary.initial_bytes
+      @primary.initial_bytes + @backing.initial_bytes
     end
 
     def total_items

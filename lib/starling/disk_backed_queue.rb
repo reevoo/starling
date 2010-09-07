@@ -1,6 +1,7 @@
 module StarlingServer
   class DiskBackedQueue
     MAX_LOGFILE_SIZE = 10_000
+    LOGGED_MESSAGE_HEADER_LENGTH = [1].pack("I").size
 
     def initialize(persistence_path, queue_name)
       @persistence_path, @queue_name = persistence_path, queue_name
@@ -48,6 +49,9 @@ module StarlingServer
       @active_log_file = nil
     end
 
+    def initial_bytes
+      logsize - length * LOGGED_MESSAGE_HEADER_LENGTH
+    end
 
   protected
 
@@ -84,7 +88,7 @@ module StarlingServer
       return [] unless file
       data = []
       File.open(file){|f|
-        while raw_size = f.read(4)
+        while raw_size = f.read(LOGGED_MESSAGE_HEADER_LENGTH)
           next unless raw_size
           size = raw_size.unpack("I").first
           item = f.read(size)
