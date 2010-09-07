@@ -51,6 +51,11 @@ module StarlingServer
       end
     end
 
+    def purge
+      @primary.purge
+      @backing.purge
+    end
+
     def pop
       if @primary.empty?
         @backing.consume_log_into(@primary)

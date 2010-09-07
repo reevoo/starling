@@ -53,6 +53,11 @@ module StarlingServer
       logsize - length * LOGGED_MESSAGE_HEADER_LENGTH
     end
 
+    def purge
+      close
+      FileUtils.rm_r( File.join(@persistence_path, "disk_backed_queue", @queue_name) )
+    end
+
   protected
 
     def available_log_files
