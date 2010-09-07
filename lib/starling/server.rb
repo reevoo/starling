@@ -83,7 +83,7 @@ module StarlingServer
                    end
 
       begin
-        @opts[:queue] = QueueCollection.new(@opts[:path])
+        @opts[:queue] = QueueCollection.new(@opts[:path], @opts[:fast_and_unordered])
       rescue InaccessibleQueuePath => e
         puts "Error: #{e.message}"
         exit 1
