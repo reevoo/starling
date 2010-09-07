@@ -1,6 +1,6 @@
 module StarlingServer
   class DiskBackedQueue
-    MAX_LOGFILE_SIZE = 1000
+    MAX_LOGFILE_SIZE = 10_000
 
     def initialize(persistence_path, queue_name)
       @persistence_path, @queue_name = persistence_path, queue_name
