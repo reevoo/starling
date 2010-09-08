@@ -51,7 +51,7 @@ module StarlingServer
 
     def take(key)
       queue = queues(key)
-      if queue.nil? || queue.length == 0
+      if queue.nil? || queue.empty?
         @stats[:get_misses] += 1
         return nil
       else

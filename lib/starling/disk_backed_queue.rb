@@ -16,6 +16,14 @@ module StarlingServer
       @active_log_file = File.open(@active_log_file_name, "ab")
     end
 
+    def any?
+      @active_log_file_size > 0 or available_log_files.size > 1
+    end
+
+    def empty?
+      !any?
+    end
+
     def length
       (available_log_files.size - 1) * MAX_LOGFILE_SIZE + @active_log_file_size
     end
