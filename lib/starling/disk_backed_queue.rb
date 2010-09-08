@@ -73,7 +73,7 @@ module StarlingServer
     end
 
     def new_logfile_name(suffix = 0)
-      name = File.join(@persistence_path, "disk_backed_queue", @queue_name, "#{Time.now.to_i}-#{suffix}")
+      name = File.join(@persistence_path, "disk_backed_queue", @queue_name, "%s-%03i" % [Time.now.to_i, suffix])
       if File.exists?( name )
         new_logfile_name(suffix + 1)
       else
