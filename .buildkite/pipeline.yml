@@ -3,3 +3,9 @@ steps:
   - label: ":bomb: Tests"
     command: |
       make test
+
+  - wait
+
+  - label: ":docker: Build"
+    command: |
+      make publish
